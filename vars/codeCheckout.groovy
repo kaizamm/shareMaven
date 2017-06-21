@@ -11,8 +11,8 @@ def call(body) {
   body.delegate = config
   body()
 
-  config.svnCredentialsId = null==config.svnCredentialsId ? "c9baf728-2463-4d59-8643-2181a681fdd4" : config.svnCredentialsId
-  config.svnLocal = null==config.svnLocal ? "." : config.svnLocal
+  config.svnCredentialsId = config.svnCredentialsId==null ? "c9baf728-2463-4d59-8643-2181a681fdd4" : config.svnCredentialsId
+  config.svnLocal = config.svnLocal==null ? "." : config.svnLocal
   def svnRepo=config.svnRepo
   checkout([$class: 'SubversionSCM',
   additionalCredentials: [],
