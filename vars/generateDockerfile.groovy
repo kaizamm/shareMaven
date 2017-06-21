@@ -1,5 +1,8 @@
 #!/usr/bin/groovy
-// 读取properties文件
+/*
+propertiesPath 指定properties文件路径
+*/
+// 调用第三方库，读取properties文件
 @NonCPS
 def mapToList(depmap) {
     def dlist = []
@@ -33,9 +36,9 @@ def call(body) {
     def copyPath="${env.WORKSPACE}/buildspace"
     //Dockerfile内容
     def dockerFileContext="""FROM ${env.fromImage}
-  MAINTAINER devops "devops@quarkfinance.com"
-  ADD ${env.appTargetName}.war \\\${CATALINA_HOME}/webapps
-  RUN cd \\\${CATALINA_HOME}/webapps && unzip ${env.appTargetName}.war -d ${env.appTargetName} && rm -rf ${env.appTargetName}.war
+MAINTAINER devops "devops@quarkfinance.com"
+ADD ${env.appTargetName}.war \${CATALINA_HOME}/webapps
+RUN cd \${CATALINA_HOME}/webapps && unzip ${env.appTargetName}.war -d ${env.appTargetName} && rm -rf ${env.appTargetName}.war
     """
 
     sh (script: "rm -rf ${copyPath}",returnStatus: true)
