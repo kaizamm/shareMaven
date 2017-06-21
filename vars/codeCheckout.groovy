@@ -4,7 +4,7 @@ svnRepo 是必须指定的属性值。
 svnCredentialsId 证书id，为可选参数，不填为默认值
 svnLocal 代码checkout地址，为可选参数，不填为默认值
 */
-/*
+
 def call(body) {
   def config = [:]
   body.resolveStrategy = Closure.DELEGATE_FIRST
@@ -26,9 +26,4 @@ def call(body) {
   includedRegions: '',
   locations: [[credentialsId: "config.svnCredentialsId", depthOption: 'infinity', ignoreExternalsOption: true, local: "config.svnLocal", remote: "${svnRepo}"]],
   workspaceUpdater: [$class: 'UpdateUpdater']])
-}
-*/
-
-def call(name) {
-  echo "hello,${name}"
 }
