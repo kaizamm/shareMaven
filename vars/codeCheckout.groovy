@@ -13,8 +13,8 @@ def call(body) {
 
   config.svnCredentialsId = null==config.svnCredentialsId ? "c9baf728-2463-4d59-8643-2181a681fdd4" : config.svnCredentialsId
   config.svnLocal = null==config.svnLocal ? "." : config.svnLocal
-  def svnRepo=config.svnRepo;
-
+  def svnRepo=config.svnRepo
+  steps {
   checkout([$class: 'SubversionSCM',
   additionalCredentials: [],
   excludedCommitMessages: '',
@@ -26,4 +26,5 @@ def call(body) {
   includedRegions: '',
   locations: [[credentialsId: "config.svnCredentialsId", depthOption: 'infinity', ignoreExternalsOption: true, local: "config.svnLocal", remote: "${svnRepo}"]],
   workspaceUpdater: [$class: 'UpdateUpdater']])
+}
 }
