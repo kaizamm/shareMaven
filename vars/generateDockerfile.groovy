@@ -32,8 +32,7 @@ def call(body) {
     //需要将编译后的软件包拷贝到的路径
     def copyPath="${env.WORKSPACE}/buildspace"
     //Dockerfile内容
-    def dockerFileContext="""
-  FROM ${env.fromImage}
+    def dockerFileContext="""FROM ${env.fromImage}
   MAINTAINER devops "devops@quarkfinance.com"
   ADD ${env.appTargetName}.war \\\${CATALINA_HOME}/webapps
   RUN cd \\\${CATALINA_HOME}/webapps && unzip ${env.appTargetName}.war -d ${env.appTargetName} && rm -rf ${env.appTargetName}.war
@@ -44,5 +43,5 @@ def call(body) {
     sh (script: "cp -af ${localFile} ${copyPath}",returnStatus: true)
     writeFile encoding: 'UTF-8', file: "${copyPath}/Dockerfile",text: dockerFileContext
   }
-  
+
 }
