@@ -11,8 +11,8 @@ def call(body) {
   body.delegate = config
   body()
 
-  config.svnCredentialsId = config.svnCredentialsId==null ? "c9baf728-2463-4d59-8643-2181a681fdd4" : config.svnCredentialsId
-  config.svnLocal = config.svnLocal==null ? "." : config.svnLocal
+  def svnCredentialsId=config.svnCredentialsId
+  def svnLocal=config.svnLocal
   def svnRepo=config.svnRepo
   checkout([$class: 'SubversionSCM',
   additionalCredentials: [],
@@ -23,6 +23,6 @@ def call(body) {
   filterChangelog: false,
   ignoreDirPropChanges: false,
   includedRegions: '',
-  locations: [[credentialsId: "config.svnCredentialsId", depthOption: 'infinity', ignoreExternalsOption: true, local: "config.svnLocal", remote: "${svnRepo}"]],
+  locations: [[credentialsId: "${svnCredentialsId}", depthOption: 'infinity', ignoreExternalsOption: true, local: "${svnLocal}", remote: "${svnRepo}"]],
   workspaceUpdater: [$class: 'UpdateUpdater']])
 }
