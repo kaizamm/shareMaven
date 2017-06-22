@@ -33,7 +33,7 @@ def call(body) {
     def projectRecipintList="${env.projectRecipintList}"
     def dockerRunOpt="${env.dockerRunOpt}"
     def dockerHosts="${env.dockerHosts}"
-println dockerHosts
+
     def hostsArry = dockerHosts.split(' ')
     for (int i = 0;i<hostsArry.size();i++) {
       def appAddress = hostsArry[i].split(',')[0].trim()
@@ -44,6 +44,7 @@ println dockerHosts
       def containerName = (instanceId+"_"+appIp+"_"+appPort).toUpperCase().replace(".","").trim()
       def int jmxPort = (appPort.toInteger()+10)
 
+      // 保留当前容器的镜像sha值
       try {
         RESULT = sh (script: "docker -H"+" "+appIp+":2375 inspect -f '{{.Image}}'"+" "+containerName,returnStdout: true).trim()
         println RESULT
@@ -51,6 +52,7 @@ println dockerHosts
         println "Failled: ${err}"
       }
 
+      // 停止并删除当前容器
       try {
         sh (script: "docker -H"+" "+appIp+":2375 stop"+" "+containerName,returnStdout: true)
         sh (script: "docker -H"+" "+appIp+":2375 rm"+" "+containerName,returnStdout: true)
@@ -59,6 +61,31 @@ println dockerHosts
       }
 
       sleep(3)
+
+      // 拉取push到registry的image
+      sh (script: "docker -H"+" "+appIp+":2375 pull"+" "+toImage,returnStdout: true)
+      // 运行容器
+      sh (script: "docker -H"+" "+appIp+":2375 run -d --restart=always --name="+containerName+" "+"-e etcdClusterIp="+etcdClusterIp+" "+"-e appCfgs="+appCfgs.replace("null","").trim()+" "+"-e appTargetName="+appTargetName+" "+"-e instanceId="+instanceId+" "+"-e jmxIp="+appIp+" "+"-e jmxPort="+jmxPort+" "+"-e JAVA_OPTS='-server -Xms12g -Xmx12g -Xss512k -XX:PermSize=512m -XX:MaxPermSize=768m -XX:+AggressiveOpts -XX:+UseBiasedLocking -XX:MaxTenuringThreshold=7 -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:+UseFastAccessorMethods -Djava.awt.headless=true -XX:+UseConcMarkSweepGC -XX:+UseParNewGC' -v /data/logs/"+containerName+":/AppLogs -p"+" "+jmxPort+":"+jmxPort+" "+"-p"+" "+appExpose+" "+dockerRunOpt.replace("null","").trim()+" "+toImage.trim(),returnStdout: true)
+
+      sleep(10)
+      // 获取当前运行容器的状态码
+      def containerStatus = sh (script: "docker -H"+" "+appIp+":2375 inspect -f '{{.State.Status}}'"+" "+containerName,returnStdout: true)
+      println containerStatus
+      // 检测状态，如果不是running状态，停止并删除，返回错误
+      if (containerStatus != 'running') {
+        sh (script: "docker -H"+" "+appIp+":2375 stop"+" "+containerName,returnStdout: true)
+        sh (script: "docker -H"+" "+appIp+":2375 rm"+" "+containerName,returnStdout: true)
+        error "containerStatus is ${containerStatus}"
+      } else {
+        println "Deploy Success!"
+      }
+
+      // 删除前面保存的容器的镜像
+      try {
+        sh (script: "docker -H"+" "+appIp+":2375 rmi"+" "+RESULT,returnStdout: true)
+      } catch (err) {
+        println "Failled: ${err}"
+      }
     }
   }
 }

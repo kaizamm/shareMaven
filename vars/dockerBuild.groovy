@@ -41,6 +41,7 @@ ADD ${env.appTargetName}.war \${CATALINA_HOME}/webapps
 RUN cd \${CATALINA_HOME}/webapps && unzip ${env.appTargetName}.war -d ${env.appTargetName} && rm -rf ${env.appTargetName}.war
     """
 
+    // 生成env上下文的svnRevision
     env.svnRevision = sh (script: "svn info ${env.WORKSPACE}/${env.appTargetName} |grep 'Last Changed Rev' | awk '{print \$4}'",returnStdout: true).trim()
     // 生成Dockerfile
     sh (script: "rm -rf ${buildPath}",returnStdout: true)
