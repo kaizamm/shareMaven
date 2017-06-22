@@ -69,7 +69,7 @@ def call(body) {
 
       sleep(10)
       // 获取当前运行容器的状态码
-      def containerStatus = sh (script: "docker -H"+" "+appIp+":2375 inspect -f '{{.State.Status}}'"+" "+containerName,returnStdout: true)
+      def containerStatus = sh (script: "docker -H"+" "+appIp+":2375 inspect -f '{{.State.Status}}'"+" "+containerName,returnStdout: true).trim()
       println containerStatus
       // 检测状态，如果不是running状态，停止并删除，返回错误
       if (containerStatus != 'running') {
