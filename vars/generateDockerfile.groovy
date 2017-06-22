@@ -41,7 +41,7 @@ ADD ${env.appTargetName}.war \${CATALINA_HOME}/webapps
 RUN cd \${CATALINA_HOME}/webapps && unzip ${env.appTargetName}.war -d ${env.appTargetName} && rm -rf ${env.appTargetName}.war
     """
 
-    def svnRevision = sh (script: "svn info ${env.WORKSPACE}/${env.appTargetName} |grep 'Last Changed Rev' | awk '{print \$4}'",returnStatus: true)
+    def svnRevision = sh (script: "svn info ${env.WORKSPACE}/${env.appTargetName} |grep 'Last Changed Rev' | awk '{print \$4}'",returnStatus: true).trim()
     // 生成Dockerfile
     sh (script: "rm -rf ${buildPath}",returnStatus: true)
     sh (script: "mkdir -p ${buildPath}",returnStatus: true)
