@@ -33,7 +33,7 @@ def call(body) {
     def projectRecipintList="${env.projectRecipintList}"
     def dockerRunOpt="${env.dockerRunOpt}"
     def dockerHosts="${env.dockerHosts}"
-
+println dockerHosts
     def hostsArry = dockerHosts.split('\n')
     for (int i = 0;i<hostsArry.size();i++) {
       def appAddress = hostsArry[i].split(',')[0].trim()
