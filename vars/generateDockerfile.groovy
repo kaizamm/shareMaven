@@ -41,6 +41,7 @@ ADD ${env.appTargetName}.war \${CATALINA_HOME}/webapps
 RUN cd \${CATALINA_HOME}/webapps && unzip ${env.appTargetName}.war -d ${env.appTargetName} && rm -rf ${env.appTargetName}.war
     """
 
+    def svnRevision = sh (script: "svn info ${env.WORKSPACE}/${env.appTargetName} |grep 'Last Changed Rev' | awk '{print \$4}'")
     // 生成Dockerfile
     sh (script: "rm -rf ${buildPath}",returnStatus: true)
     sh (script: "mkdir -p ${buildPath}",returnStatus: true)
@@ -49,7 +50,7 @@ RUN cd \${CATALINA_HOME}/webapps && unzip ${env.appTargetName}.war -d ${env.appT
 
     // 执行docker build
     sh (script: "docker pull ${env.fromImage}",returnStatus: true)
-    sh (script: "docker build --no-cache=true -t ${env.toImage}:${codeCheckout().svnRevision} ${buildPath}",returnStatus: true)
+    sh (script: "docker build --no-cache=true -t ${env.toImage}:${svnRevision} ${buildPath}",returnStatus: true)
     // sh (script: "docker push ${env.toImage}",returnStatus: true)
     // sh (script: "docker rmi ${env.toImage}",returnStatus: true)
   }

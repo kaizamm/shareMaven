@@ -25,6 +25,4 @@ def call(body) {
   includedRegions: '',
   locations: [[credentialsId: "${config.svnCredentialsId}", depthOption: 'infinity', ignoreExternalsOption: true, local: "${config.svnLocal}", remote: "${svnRepo}"]],
   workspaceUpdater: [$class: 'UpdateUpdater']])
-
-  def svnRevision = sh (script: "svn info . |grep 'Last Changed Rev' | awk '{print \$4}'")
 }
