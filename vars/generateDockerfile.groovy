@@ -41,18 +41,18 @@ ADD ${env.appTargetName}.war \${CATALINA_HOME}/webapps
 RUN cd \${CATALINA_HOME}/webapps && unzip ${env.appTargetName}.war -d ${env.appTargetName} && rm -rf ${env.appTargetName}.war
     """
 
-    def svnRevision = sh (script: "svn info ${env.WORKSPACE}/${env.appTargetName} |grep 'Last Changed Rev' | awk '{print \$4}'",returnStatus: true).trim()
+    def svnRevision = sh (script: "svn info ${env.WORKSPACE}/${env.appTargetName} |grep 'Last Changed Rev' | awk '{print \$4}'",returnStdout: true).trim()
     // 生成Dockerfile
-    sh (script: "rm -rf ${buildPath}",returnStatus: true)
-    sh (script: "mkdir -p ${buildPath}",returnStatus: true)
-    sh (script: "cp -af ${localFile} ${buildPath}",returnStatus: true)
+    sh (script: "rm -rf ${buildPath}",returnStdout: true)
+    sh (script: "mkdir -p ${buildPath}",returnStdout: true)
+    sh (script: "cp -af ${localFile} ${buildPath}",returnStdout: true)
     writeFile encoding: 'UTF-8', file: "${buildPath}/Dockerfile",text: dockerFileContext
 
     // 执行docker build
-    sh (script: "docker pull ${env.fromImage}",returnStatus: true)
-    sh (script: "docker build --no-cache=true -t ${env.toImage}:${svnRevision} ${buildPath}",returnStatus: true)
-    // sh (script: "docker push ${env.toImage}",returnStatus: true)
-    // sh (script: "docker rmi ${env.toImage}",returnStatus: true)
+    sh (script: "docker pull ${env.fromImage}",returnStdout: true)
+    sh (script: "docker build --no-cache=true -t ${env.toImage}:${svnRevision} ${buildPath}",returnStdout: true)
+    // sh (script: "docker push ${env.toImage}",returnStdout: true)
+    // sh (script: "docker rmi ${env.toImage}",returnStdout: true)
   }
 
 }
