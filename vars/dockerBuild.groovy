@@ -50,9 +50,9 @@ RUN cd \${CATALINA_HOME}/webapps && unzip ${env.appTargetName}.war -d ${env.appT
 
     // 执行docker build
     sh (script: "docker pull ${env.fromImage}",returnStdout: true)
-    // sh (script: "docker build --no-cache=true -t ${env.toImage}:${svnRevision} ${buildPath}",returnStdout: true)
-    // sh (script: "docker push ${env.toImage}",returnStdout: true)
-    // sh (script: "docker rmi ${env.toImage}",returnStdout: true)
+    sh (script: "docker build --no-cache=true -t ${env.toImage}:${svnRevision} ${buildPath}",returnStdout: true)
+    sh (script: "docker push ${env.toImage}:${svnRevision}",returnStdout: true)
+    sh (script: "docker rmi ${env.toImage}:${svnRevision}",returnStdout: true)
   }
 
 }
