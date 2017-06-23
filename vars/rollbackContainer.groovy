@@ -26,17 +26,25 @@ def call(body) {
   }
 
   withEnv(envList) {
+    def allImage =sh (script: "python /data/jenkins_etcd/getRegistryTagList.py ${env.appTargetName}",returnStdout: true)
+    def userInput = input(
+            id: 'userInput', message: 'Choice your rollback version!', parameters: [
+                [$class: 'ChoiceParameterDefinition', choices: "${allImage}", description: 'rollbackAppTargetName from registry', name: 'rollbackAppTargetName']
+                ])
+    // appTargetName 来自于与registry
+    def rollbackAppTargetName = userInput.trim()
     def appOrg="${env.appOrg}"
     def appEnv="${env.appEnv}"
     def appTargetName="${env.appTargetName}"
     def etcdClusterIp="${env.etcdClusterIp}"
     def fromImage="${env.fromImage}"
-    def toImage="${env.toImage}"+":"+"${env.svnRevision}"
+    def toImage="${env.REGISTRY}"+"/"+"${rollbackAppTargetName}"
     def appCfgs="${env.appCfgs}"
     def projectRecipintList="${env.projectRecipintList}"
     def dockerRunOpt="${env.dockerRunOpt}"
     def dockerHosts="${env.dockerHosts}"
 
+    input "Your choice is ${AppTargetName} \nAre you sure deploy to Production?"
     def hostsArry = dockerHosts.split(' ')
     for (int i = 0;i<hostsArry.size();i++) {
       def appAddress = hostsArry[i].split(',')[0].trim()
@@ -80,7 +88,7 @@ def call(body) {
         sh (script: "docker -H"+" "+appIp+":2375 rm"+" "+containerName,returnStdout: true)
         error "containerStatus is ${containerStatus}"
       } else {
-        println "Deploy Success!"
+        println "RollBack Success!"
       }
 
       // 删除前面保存的容器的镜像
