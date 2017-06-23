@@ -26,7 +26,6 @@ def call(body) {
   }
 
   withEnv(envList) {
-    stage('选择回滚版本') {
     // 获取当前项目在docker-registry上的所有版本
     def allImage =sh (script: "python ${config.getRegistryTagList} ${env.appTargetName}",returnStdout: true)
     // 选择当前项目要回滚的版本
@@ -37,21 +36,17 @@ def call(body) {
 
     // rollbackAppTargetName 来自于与registry
     def rollbackAppTargetName = userInput.trim()
-  }
     def appOrg="${env.appOrg}"
     def appEnv="${env.appEnv}"
     def appTargetName="${env.appTargetName}"
     def etcdClusterIp="${env.etcdClusterIp}"
     def fromImage="${env.fromImage}"
-    // 和部署唯一不一样的就是toImage来源于registry
+    // 和部署唯一不一直的地方就是toImage来源于registry
     def toImage="${env.DOCKER_REGISTRY}"+"/"+"${rollbackAppTargetName}"
     def appCfgs="${env.appCfgs}"
     def projectRecipintList="${env.projectRecipintList}"
     def dockerRunOpt="${env.dockerRunOpt}"
     def dockerHosts="${env.dockerHosts}"
-
-    stage('确认回滚生产') {
-    input "Your choice is ${rollbackAppTargetName} \nAre you sure deploy to Production?"
     def hostsArry = dockerHosts.split(' ')
     for (int i = 0;i<hostsArry.size();i++) {
       def appAddress = hostsArry[i].split(',')[0].trim()
@@ -106,5 +101,4 @@ def call(body) {
       }
     }
   }
-}
 }
