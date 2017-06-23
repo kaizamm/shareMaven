@@ -6,5 +6,4 @@ def call(path){
 		dlist.add(entry.key+"="+entry.value)
 	}
 	return dlist
-	def env.envList = myLoadProperties "/data/prepare_dac_tsp.properties"
 }
