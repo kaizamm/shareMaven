@@ -38,7 +38,7 @@ def call(body) {
     def appTargetName="${env.appTargetName}"
     def etcdClusterIp="${env.etcdClusterIp}"
     def fromImage="${env.fromImage}"
-    def toImage="${env.REGISTRY}"+"/"+"${rollbackAppTargetName}"
+    def toImage="${env.DOCKER_REGISTRY}"+"/"+"${rollbackAppTargetName}"
     def appCfgs="${env.appCfgs}"
     def projectRecipintList="${env.projectRecipintList}"
     def dockerRunOpt="${env.dockerRunOpt}"
