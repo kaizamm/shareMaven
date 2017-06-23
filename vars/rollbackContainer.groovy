@@ -26,6 +26,7 @@ def call(body) {
   }
 
   withEnv(envList) {
+    stage('选择回滚版本') {
     // 获取当前项目在docker-registry上的所有版本
     def allImage =sh (script: "python ${config.getRegistryTagList} ${env.appTargetName}",returnStdout: true)
     // 选择当前项目要回滚的版本
@@ -47,6 +48,8 @@ def call(body) {
     def projectRecipintList="${env.projectRecipintList}"
     def dockerRunOpt="${env.dockerRunOpt}"
     def dockerHosts="${env.dockerHosts}"
+    stage('确认回滚到生产') {
+    input "Your choice is ${AppTargetName} \nAre you sure deploy to Production?"
     def hostsArry = dockerHosts.split(' ')
     for (int i = 0;i<hostsArry.size();i++) {
       def appAddress = hostsArry[i].split(',')[0].trim()
@@ -101,4 +104,6 @@ def call(body) {
       }
     }
   }
+}
+}
 }
