@@ -34,9 +34,10 @@ def call(body) {
             id: 'userInput', message: 'Choice your rollback version!', parameters: [
                 [$class: 'ChoiceParameterDefinition', choices: "${allImage}", description: 'rollbackAppTargetName from registry', name: 'rollbackAppTargetName']
                 ])
-              }
+
     // rollbackAppTargetName 来自于与registry
     def rollbackAppTargetName = userInput.trim()
+  }
     def appOrg="${env.appOrg}"
     def appEnv="${env.appEnv}"
     def appTargetName="${env.appTargetName}"
