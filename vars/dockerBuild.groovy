@@ -3,14 +3,6 @@
 propertiesPath 指定properties文件路径
 */
 // 调用第三方库，读取properties文件
-@NonCPS
-def mapToList(depmap) {
-    def dlist = []
-    for (entry in depmap) {
-        dlist.add([entry.key, entry.value])
-    }
-    dlist
-}
 
 def call(body) {
   def config = [:]
@@ -19,13 +11,7 @@ def call(body) {
   body()
 
   // 读取properties文件
-  def props = readProperties file: "${config.propertiesPath}"
-  def envList = []
-  for (it2 in mapToList(props)) {
-      def key=it2[0]
-      def val=it2[1]
-      envList << key+"="+val
-  }
+  def envList = myLoadProperties "${config.propertiesPath}"
 
   withEnv(envList) {
     //先对其解档
