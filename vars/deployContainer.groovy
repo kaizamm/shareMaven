@@ -2,14 +2,7 @@
 /*
 唯一需要指定的就是propertiesPath，其他的来源于该文件
 */
-@NonCPS
-def mapToList(depmap) {
-    def dlist = []
-    for (entry in depmap) {
-        dlist.add([entry.key, entry.value])
-    }
-    dlist
-}
+@Library('shareMaven') _
 def call(body) {
   def config = [:]
   body.resolveStrategy = Closure.DELEGATE_FIRST
@@ -17,14 +10,7 @@ def call(body) {
   body()
 
   // 读取properties文件
-  def props = readProperties file: "${config.propertiesPath}"
-  def envList = []
-  for (it2 in mapToList(props)) {
-      def key=it2[0]
-      def val=it2[1]
-      envList << key+"="+val
-  }
-
+  def envList = myLoadProperties "${config.propertiesPath}"
   withEnv(envList) {
     def appOrg="${env.appOrg}"
     def appEnv="${env.appEnv}"
