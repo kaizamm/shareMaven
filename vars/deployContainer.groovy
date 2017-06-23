@@ -1,5 +1,4 @@
 #!/usr/bin/env groovy
-// @Library('shareMaven') _
 /*
 唯一需要指定的就是propertiesPath，其他的来源于该文件
 */
