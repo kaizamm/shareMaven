@@ -11,9 +11,9 @@ def call(body) {
   body()
 
   // 读取properties文件
-  // def envList = myLoadProperties "${config.propertiesPath}"
+  def envList = myLoadProperties "${config.propertiesPath}"
 
-  withEnv(env.envList) {
+  withEnv(envList) {
     //先对其解档
     unstash 'app'
     //本地编译后的软件包
