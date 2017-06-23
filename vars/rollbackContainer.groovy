@@ -26,12 +26,14 @@ def call(body) {
   }
 
   withEnv(envList) {
-    def allImage =sh (script: "python /data/jenkins_etcd/getRegistryTagList.py ${env.appTargetName}",returnStdout: true)
+    // 获取当前项目在docker-registry上的所有版本
+    def allImage =sh (script: "python ${config.getRegistryTagList} ${env.appTargetName}",returnStdout: true)
+    // 选择当前项目要回滚的版本
     def userInput = input(
             id: 'userInput', message: 'Choice your rollback version!', parameters: [
                 [$class: 'ChoiceParameterDefinition', choices: "${allImage}", description: 'rollbackAppTargetName from registry', name: 'rollbackAppTargetName']
                 ])
-    // appTargetName 来自于与registry
+    // rollbackAppTargetName 来自于与registry
     def rollbackAppTargetName = userInput.trim()
     def appOrg="${env.appOrg}"
     def appEnv="${env.appEnv}"
@@ -44,7 +46,8 @@ def call(body) {
     def dockerRunOpt="${env.dockerRunOpt}"
     def dockerHosts="${env.dockerHosts}"
 
-    input "Your choice is ${AppTargetName} \nAre you sure deploy to Production?"
+    stage '回滚生产'
+    input "Your choice is ${rollbackAppTargetName} \nAre you sure deploy to Production?"
     def hostsArry = dockerHosts.split(' ')
     for (int i = 0;i<hostsArry.size();i++) {
       def appAddress = hostsArry[i].split(',')[0].trim()
