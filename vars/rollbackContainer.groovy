@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 /*
-唯一需要指定的就是propertiesPath，其他的来源于该文件
+需要指定propertiesPath和getRegistryTagList的路径
 */
 @NonCPS
 def mapToList(depmap) {
@@ -26,6 +26,7 @@ def call(body) {
   }
 
   withEnv(envList) {
+    stage('选择回滚版本') {
     // 获取当前项目在docker-registry上的所有版本
     def allImage =sh (script: "python ${config.getRegistryTagList} ${env.appTargetName}",returnStdout: true)
     // 选择当前项目要回滚的版本
@@ -33,6 +34,7 @@ def call(body) {
             id: 'userInput', message: 'Choice your rollback version!', parameters: [
                 [$class: 'ChoiceParameterDefinition', choices: "${allImage}", description: 'rollbackAppTargetName from registry', name: 'rollbackAppTargetName']
                 ])
+              }
     // rollbackAppTargetName 来自于与registry
     def rollbackAppTargetName = userInput.trim()
     def appOrg="${env.appOrg}"
