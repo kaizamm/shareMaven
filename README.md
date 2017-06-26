@@ -6,5 +6,7 @@
 4. codeCheckout.groovy 代码检出
 5. mvnPackage.groovy maven打包
 6. mvnTest.groovy maven测试
-
+7. choiceAction 动作选择
+8. sendEmail 邮件发送
+9. myLoadProperties properties文件加载
 后期可以自行加上诸如，剔NG,重启服务等代码

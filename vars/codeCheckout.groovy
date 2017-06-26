@@ -2,7 +2,7 @@
 /*
 svnRepo 是必须指定的属性值。
 svnCredentialsId 证书id，为可选参数，不填为默认值
-svnLocal 代码checkout地址，为可选参数，不填为默认值
+svnLocal 代码checkout地址，为可选参数，不填为默认值 .
 */
 
 def call(body) {

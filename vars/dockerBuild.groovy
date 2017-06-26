@@ -2,7 +2,6 @@
 /*
 propertiesPath 指定properties文件路径
 */
-// 调用第三方库，读取properties文件
 
 def call(body) {
   def config = [:]
@@ -14,8 +13,6 @@ def call(body) {
   def envList = myLoadProperties "${config.propertiesPath}"
 
   withEnv(envList) {
-    //先对其解档
-    unstash 'app'
     //本地编译后的软件包
     def localFile="${env.WORKSPACE}/${env.appTargetName}/target/${env.appTargetName}.war"
     //需要将编译后的软件包拷贝到的路径
