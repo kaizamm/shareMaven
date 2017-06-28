@@ -2,6 +2,7 @@
 // def call(path){
 def call(String host,int port=2379,String location){
 	def context = sh "/data/jenkins_etcd/etcdRead.py ${host} ${port} ${location}"
+	println context
 	// def props = readProperties file: path
 	def props = readProperties text: context
 	def dlist = []
