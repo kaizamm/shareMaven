@@ -10,7 +10,7 @@ def call(body) {
   body()
 
   // 读取properties文件
-  def envList = myLoadProperties "${config.propertiesPath}"
+  def envList = myLoadProperties ("${config.host}","${config.port}","${config.location}")
   withEnv(envList) {
     def appOrg="${env.appOrg}"
     def appEnv="${env.appEnv}"
