@@ -10,8 +10,8 @@ def call(body) {
   body()
 
   // 读取properties文件
-  def envList = myLoadProperties ("${config.host}","${config.port}","${config.location}")
-  withEnv(envList) {
+  // def envList = myLoadProperties ("${config.host}","${config.port}","${config.location}")
+  // withEnv(envList) {
     def appOrg="${env.appOrg}"
     def appEnv="${env.appEnv}"
     def appTargetName="${env.appTargetName}"
@@ -78,5 +78,5 @@ def call(body) {
         println "Failled: ${err}"
       }
     }
-  }
+  // }
 }

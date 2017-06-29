@@ -10,9 +10,9 @@ def call(body) {
   body()
 
   // 读取properties文件
-  def envList = myLoadProperties ("${config.host}","${config.port}","${config.location}")
+  // def envList = myLoadProperties ("${config.host}","${config.port}","${config.location}")
 
-  withEnv(envList) {
+  // withEnv(envList) {
     //本地编译后的软件包
     def localFile="${env.WORKSPACE}/${env.appTargetName}/target/${env.appTargetName}.war"
     //需要将编译后的软件包拷贝到的路径
@@ -37,6 +37,6 @@ RUN cd \${CATALINA_HOME}/webapps && unzip ${env.appTargetName}.war -d ${env.appT
     sh (script: "docker build --no-cache=true -t ${env.toImage}:${svnRevision} ${buildPath}",returnStdout: true)
     sh (script: "docker push ${env.toImage}:${svnRevision}",returnStdout: true)
     sh (script: "docker rmi ${env.toImage}:${svnRevision}",returnStdout: true)
-  }
+  // }
 
 }

@@ -10,7 +10,7 @@ def call(body) {
   body()
 
   // 读取properties文件
-  def envList = myLoadProperties "${config.propertiesPath}"
+  // def envList = myLoadProperties "${config.propertiesPath}"
 
   withEnv(envList) {
     stage('选择回滚版本') {
