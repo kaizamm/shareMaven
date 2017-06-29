@@ -12,7 +12,7 @@ def call(body) {
   // 读取properties文件
   // def envList = myLoadProperties "${config.propertiesPath}"
 
-  withEnv(envList) {
+  // withEnv(envList) {
     stage('选择回滚版本') {
       // 获取当前项目在docker-registry上的所有版本
       def allImage =sh (script: "python ${config.getRegistryTagList} ${env.appTargetName}",returnStdout: true)
@@ -97,5 +97,5 @@ def call(body) {
         }
       }
     }
-  }
+  // }
 }
