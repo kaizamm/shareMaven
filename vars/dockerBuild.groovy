@@ -2,7 +2,6 @@
 /*
 projectName名称需要指定，具体到子项目名称
 packageName名称需要指定，具体到.jar还是.war
-remoteDir路径，将包部署到那个镜像的那个位置
 */
 def call(body) {
   def config = [:]
