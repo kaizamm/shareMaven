@@ -20,13 +20,11 @@ def call(body) {
   def packageUnzipName = packageName.substring(0,packageName.lastIndexOf("."))
   //需要将编译后的软件包拷贝到的路径
   def buildPath="${env.WORKSPACE}/buildspace"
-  // 远程部署位置
-  def remoteDir = config.remoteDir.trim()
   //Dockerfile内容
   def dockerFileContext="""FROM ${env.fromImage}
 MAINTAINER devops "devops@quarkfinance.com"
-ADD ${packageName} ${remoteDir}
-RUN cd ${remoteDir} && unzip ${packageName} -d ${packageUnzipName}
+ADD ${packageName} ${env.remoteDir}
+RUN cd ${env.remoteDir} && unzip ${packageName} -d ${packageUnzipName}
     """
 
   // 生成env上下文的svnRevision
