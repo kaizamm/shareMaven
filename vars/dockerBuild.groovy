@@ -2,6 +2,7 @@
 /*
 projectName名称需要指定，具体到子项目名称
 packageName名称需要指定，具体到.jar还是.war
+remoteDir路径，将包部署到那个镜像的那个位置
 */
 def call(body) {
   def config = [:]
@@ -19,11 +20,13 @@ def call(body) {
   def packageUnzipName = packageName.substring(0,packageName.lastIndexOf("."))
   //需要将编译后的软件包拷贝到的路径
   def buildPath="${env.WORKSPACE}/buildspace"
+  // 远程部署位置
+  def remoteDir= config.remoteDir
   //Dockerfile内容
   def dockerFileContext="""FROM ${env.fromImage}
 MAINTAINER devops "devops@quarkfinance.com"
-ADD ${packageName} \${CATALINA_HOME}/webapps
-RUN cd \${CATALINA_HOME}/webapps && unzip ${packageName} -d ${packageUnzipName}
+ADD ${packageName} ${remoteDir}
+RUN cd ${remoteDir} && unzip ${packageName} -d ${packageUnzipName}
     """
 
   // 生成env上下文的svnRevision
