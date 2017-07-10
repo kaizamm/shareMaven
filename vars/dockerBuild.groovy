@@ -21,7 +21,7 @@ def call(body) {
   //需要将编译后的软件包拷贝到的路径
   def buildPath="${env.WORKSPACE}/buildspace"
   // 远程部署位置
-  def remoteDir= config.remoteDir
+  def remoteDir = config.remoteDir.trim()
   //Dockerfile内容
   def dockerFileContext="""FROM ${env.fromImage}
 MAINTAINER devops "devops@quarkfinance.com"
