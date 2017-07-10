@@ -33,7 +33,7 @@ RUN cd \${CATALINA_HOME}/webapps && unzip ${packageName} -d ${packageUnzipName} 
   // 生成Dockerfile
   sh (script: "rm -rf ${buildPath}",returnStdout: true)
   sh (script: "mkdir -p ${buildPath}",returnStdout: true)
-  sh (script: "cp -af ${projectPath}/${packageName} ${buildPath}",returnStdout: true)
+  sh (script: "cp -af ${projectPath}/target/${packageName} ${buildPath}",returnStdout: true)
   writeFile encoding: 'UTF-8', file: "${buildPath}/Dockerfile",text: dockerFileContext
 
   // 执行docker build
