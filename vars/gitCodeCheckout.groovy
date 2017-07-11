@@ -1,8 +1,8 @@
 #!/usr/bin/env groovy
 /*
-gitRepo
-gitCredentialsId
-gitLocal
+gitRepo 指定git repo地址，必须指定
+gitCredentialsId 指定证书ID，不指定，默认是jenkinsadmin用户
+gitLocal 指定checkout的位置，不指定，默认是当前workspace目录
 */
 
 def call(body) {
