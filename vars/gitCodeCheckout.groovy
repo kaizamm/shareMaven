@@ -15,7 +15,7 @@ def call(body) {
   config.gitLocal = null == config.gitLocal ? "." : config.gitLocal
   def gitRepo = config.gitRepo
 
-  dir("${config.gitRepo}") {
+  dir("${config.gitLocal}") {
     checkout([$class: 'GitSCM',
     branches: [[name: '*/master']],
     userRemoteConfigs: [[url: "${gitRepo}",credentialsId: "${config.credentialsId}"]]])
