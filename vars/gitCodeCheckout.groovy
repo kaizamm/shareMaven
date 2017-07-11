@@ -18,6 +18,6 @@ def call(body) {
   dir("${config.gitLocal}") {
     checkout([$class: 'GitSCM',
     branches: [[name: '*/master']],
-    userRemoteConfigs: [[url: "${gitRepo}",credentialsId: "${config.credentialsId}"]]])
+    userRemoteConfigs: [[url: "${gitRepo}",credentialsId: "${config.gitCredentialsId}"]]])
   }
 }
