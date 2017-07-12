@@ -8,7 +8,7 @@ def call(body) {
 
   stage('选择回滚版本') {
     // 获取当前项目在docker-registry上的所有版本
-    def allImage =sh (script: "python ${config.getRegistryTagList} ${env.appTargetName}",returnStdout: true)
+    def allImage =sh (script: "python ${config.getRegistryTagList} ${env.projectName}",returnStdout: true)
     // 选择当前项目要回滚的版本
     def userInput = input(
       id: 'userInput', message: 'Choice your rollback version!', parameters: [
