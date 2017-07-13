@@ -19,6 +19,9 @@ def call(body) {
   def packageUnzipName = packageName.substring(0,packageName.lastIndexOf("."))
   //需要将编译后的软件包拷贝到的路径
   def buildPath="${env.WORKSPACE}/buildspace"
+
+  //
+  def dirList = sh (script: "ls -a ${projectPath}",returnStdout: true).trim().split('\n')
   //Dockerfile内容
   def dockerFileContext="""FROM ${env.fromImage}
 MAINTAINER devops "devops@quarkfinance.com"
@@ -26,8 +29,15 @@ ADD ${packageName} ${env.remoteDir}
 RUN cd ${env.remoteDir} && unzip ${packageName} -d ${packageUnzipName}
     """
 
-  // 生成env上下文的svnRevision
-  env.svnRevision = sh (script: "svn info ${projectPath} |grep 'Last Changed Rev' | awk '{print \$4}'",returnStdout: true).trim()
+  // 生成env上下文的imageTag
+  for (x in dirList) {
+    if (x == '.git'){
+      env.imageTag = sh (script: "git reflog show |awk '{print \$1}'",returnStdout: true).trim()
+    } else {
+      env.imageTag = sh (script: "svn info ${projectPath} |grep 'Last Changed Rev' | awk '{print \$4}'",returnStdout: true).trim()
+    }
+  }
+
   // 生成Dockerfile
   sh (script: "rm -rf ${buildPath}",returnStdout: true)
   sh (script: "mkdir -p ${buildPath}",returnStdout: true)
@@ -36,7 +46,7 @@ RUN cd ${env.remoteDir} && unzip ${packageName} -d ${packageUnzipName}
 
   // 执行docker build
   sh (script: "docker pull ${env.fromImage}",returnStdout: true)
-  sh (script: "docker build --no-cache=true -t ${env.toImage}:${svnRevision} ${buildPath}",returnStdout: true)
+  sh (script: "docker build --no-cache=true -t ${env.toImage}:${imageTag} ${buildPath}",returnStdout: true)
   sh (script: "docker push ${env.toImage}:${svnRevision}",returnStdout: true)
   sh (script: "docker rmi ${env.toImage}:${svnRevision}",returnStdout: true)
 }
