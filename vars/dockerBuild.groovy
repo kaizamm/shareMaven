@@ -10,7 +10,7 @@ def call(body) {
   body()
 
   // 项目位置
-  def projectPath = "${env.WORKSPACE}/${config.projectName}"
+  projectPath = "${env.WORKSPACE}/${config.projectName}"
   // 编译包位置
   def packagePath = "${projectPath}/target"
   // 编译包名称
@@ -30,14 +30,14 @@ RUN cd ${env.remoteDir} && unzip ${packageName} -d ${packageUnzipName}
     """
 
   // 生成env上下文的imageTag
-  for (x in dirList) {
-    if (x == '.git'){
-      env.svnRevision = sh (script: "cd"+" "+projectPath.trim()+" "+"&& git rev-parse HEAD | awk '{print \$1}'",returnStdout: true).trim().substring(0,7)
-      // env.svnRevision = 'test'
-    } else {
+  // for (x in dirList) {
+  //   if (x == '.git'){
+  //     env.svnRevision = sh (script: "cd ${projectPath} && git rev-parse HEAD | awk '{print \$1}'",returnStdout: true).trim().substring(0,7)
+  //     // env.svnRevision = 'test'
+  //   } else {
       env.svnRevision = sh (script: "svn info ${projectPath} |grep 'Last Changed Rev' | awk '{print \$4}'",returnStdout: true).trim()
-    }
-  }
+  //   }
+  // }
 
   // 生成Dockerfile
   sh (script: "rm -rf ${buildPath}",returnStdout: true)
