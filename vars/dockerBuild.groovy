@@ -10,7 +10,7 @@ def call(body) {
   body()
 
   // 项目位置
-  def projectPath = ("${env.WORKSPACE}/${config.projectName}").trim()
+  def projectPath = "${env.WORKSPACE}/${config.projectName}"
   // 编译包位置
   def packagePath = "${projectPath}/target"
   // 编译包名称
@@ -21,7 +21,7 @@ def call(body) {
   def buildPath="${env.WORKSPACE}/buildspace"
 
   //
-  def dirList = sh (script: "find ${projectPath} -type d -name '.*' -exec basename {} \\;",returnStdout: true).trim().split('\n')
+  def dirList = sh (script: "find"+projectPath.trim()+"-type d -name '.*' -exec basename {} \\;",returnStdout: true).trim().split('\n')
   //Dockerfile内容
   def dockerFileContext="""FROM ${env.fromImage}
 MAINTAINER devops "devops@quarkfinance.com"
