@@ -32,7 +32,7 @@ RUN cd ${env.remoteDir} && unzip ${packageName} -d ${packageUnzipName}
   // 生成env上下文的imageTag
   for (x in dirList) {
     if (x == '.git'){
-      env.imageTag = sh (script: "git reflog show |awk '{print \$1}'",returnStdout: true).trim()
+      env.imageTag = sh (script: "git rev-parse HEAD |awk '{print \$1}'",returnStdout: true).trim()
     } else {
       env.imageTag = sh (script: "svn info ${projectPath} |grep 'Last Changed Rev' | awk '{print \$4}'",returnStdout: true).trim()
     }
