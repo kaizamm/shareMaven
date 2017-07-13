@@ -32,9 +32,9 @@ RUN cd ${env.remoteDir} && unzip ${packageName} -d ${packageUnzipName}
   // 生成env上下文的imageTag
   for (x in dirList) {
     if (x == '.git'){
-      env.imageTag = sh (script: "git rev-parse HEAD |awk '{print \$1}'",returnStdout: true).trim()
+      env.svnRevision = sh (script: "git rev-parse HEAD |awk '{print \$1}'",returnStdout: true).trim()
     } else {
-      env.imageTag = sh (script: "svn info ${projectPath} |grep 'Last Changed Rev' | awk '{print \$4}'",returnStdout: true).trim()
+      env.svnRevision = sh (script: "svn info ${projectPath} |grep 'Last Changed Rev' | awk '{print \$4}'",returnStdout: true).trim()
     }
   }
 
@@ -46,7 +46,7 @@ RUN cd ${env.remoteDir} && unzip ${packageName} -d ${packageUnzipName}
 
   // 执行docker build
   sh (script: "docker pull ${env.fromImage}",returnStdout: true)
-  sh (script: "docker build --no-cache=true -t ${env.toImage}:${imageTag} ${buildPath}",returnStdout: true)
+  sh (script: "docker build --no-cache=true -t ${env.toImage}:${svnRevision} ${buildPath}",returnStdout: true)
   sh (script: "docker push ${env.toImage}:${svnRevision}",returnStdout: true)
   sh (script: "docker rmi ${env.toImage}:${svnRevision}",returnStdout: true)
 }
