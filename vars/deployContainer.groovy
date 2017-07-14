@@ -10,7 +10,7 @@ def call(body) {
   def appTargetName="${env.appTargetName}"
   def etcdClusterIp="${env.etcdClusterIp}"
   def fromImage="${env.fromImage}"
-  def toImage="${env.toImage}"+":"+"${env.svnRevision}"
+  def toImage="${env.toImage}"+":"+"${env.imageTag}"
   def appCfgs="${env.appCfgs}"
   def projectRecipintList="${env.projectRecipintList}"
   def dockerRunOpts="${env.dockerRunOpts}"
