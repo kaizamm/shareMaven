@@ -34,8 +34,10 @@ RUN cd ${env.remoteDir} && unzip ${packageName} -d ${packageUnzipName}
     if (dirList[i] == '.git') {
       env.imageTag = "${env.gitTag}"
       // env.imageTag = sh (script: "cd ${projectPath} && git rev-parse HEAD | awk '{print \$1}'",returnStdout: true).trim().substring(0,7)
-    } else {
+    } else if (dirList[i] == '.svn') {
       env.imageTag = sh (script: "svn info ${projectPath} |grep 'Last Changed Rev' | awk '{print \$4}'",returnStdout: true).trim()
+    } else {
+      error "This is not a SCM project!"
     }
   }
 
