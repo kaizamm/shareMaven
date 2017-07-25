@@ -39,7 +39,7 @@ RUN cd ${env.remoteDir} && unzip ${packageName} -d ${packageUnzipName}
       env.imageTag = sh (script: "svn info ${projectPath} |grep 'Last Changed Rev' | awk '{print \$4}'",returnStdout: true).trim()
       break
     } else {
-      error "This is not a SCM project!"
+      continue
     }
   }
 
