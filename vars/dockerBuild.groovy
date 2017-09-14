@@ -18,8 +18,7 @@ def call(body) {
   //解压目录名
   // def packageUnzipName = packageName.substring(0,packageName.lastIndexOf("."))
   //需要将编译后的软件包拷贝到的路径
-  // def buildPath="${env.WORKSPACE}/buildspace"
-  def buildPath = new File("${env.WORKSPACE/buildspace}")
+  def buildPath="${env.WORKSPACE}/buildspace"
 
   // 生成当前项目下的隐藏目录
   // def dirList = sh (script: "find ${env.WORKSPACE} -type d -name '.*' -exec basename {} \\;",returnStdout: true).trim().split('\n')
@@ -45,7 +44,12 @@ def call(body) {
   // }
 
   // 生成Dockerfile
+  if (fileExists("${buildPath}")) {
     sh (script: "cp -af ${packagePath}/${packageName} ${buildPath}",returnStdout: true)
+  } else {
+    sh (script: "mkdir -p ${buildPath}",returnStdout: true)
+  }
+    // sh (script: "cp -af ${packagePath}/${packageName} ${buildPath}",returnStdout: true)
   // sh (script: "rm -rf ${buildPath}",returnStdout: true)
   // sh (script: "mkdir -p ${buildPath}",returnStdout: true)
   // sh (script: "cp -af ${packagePath}/${packageName} ${buildPath}",returnStdout: true)
