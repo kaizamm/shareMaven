@@ -19,7 +19,7 @@ def call(body) {
   // def packageUnzipName = packageName.substring(0,packageName.lastIndexOf("."))
   //需要将编译后的软件包拷贝到的路径
   // def buildPath="${env.WORKSPACE}/buildspace"
-  def buildPath = new new File("${env.WORKSPACE/buildspace}")
+  def buildPath = new File("${env.WORKSPACE/buildspace}")
 
   // 生成当前项目下的隐藏目录
   // def dirList = sh (script: "find ${env.WORKSPACE} -type d -name '.*' -exec basename {} \\;",returnStdout: true).trim().split('\n')
