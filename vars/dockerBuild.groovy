@@ -44,9 +44,14 @@ def call(body) {
   // }
 
   // 生成Dockerfile
-  sh (script: "rm -rf ${buildPath}",returnStdout: true)
-  sh (script: "mkdir -p ${buildPath}",returnStdout: true)
-  sh (script: "cp -af ${packagePath}/${packageName} ${buildPath}",returnStdout: true)
+  if(!buildPath.exists()){
+    buildPath.mkdirs()
+  } else {
+    sh (script: "cp -af ${packagePath}/${packageName} ${buildPath}",returnStdout: true)
+  }
+  // sh (script: "rm -rf ${buildPath}",returnStdout: true)
+  // sh (script: "mkdir -p ${buildPath}",returnStdout: true)
+  // sh (script: "cp -af ${packagePath}/${packageName} ${buildPath}",returnStdout: true)
   // writeFile encoding: 'UTF-8', file: "${buildPath}/Dockerfile",text: dockerFileContext
 
   // 执行docker build
