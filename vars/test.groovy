@@ -25,7 +25,7 @@ def call(body) {
   //Dockerfile内容
   def dockerFileContext="""FROM ${env.fromImage}
 MAINTAINER devops "devops@quarkfinance.com"
-ADD ${buildPath}/*.war ${buildPath}/*.jar ${env.remoteDir}/
+ADD *.war *.jar ${env.remoteDir}/
 RUN cd ${env.remoteDir} && unzip ${packageName} -d ${packageUnzipName}
     """
 
