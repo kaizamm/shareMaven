@@ -24,6 +24,7 @@ def call(body) {
     sh (script: "cp -af ${packagePath}/${packageName} ${buildPath}",returnStdout: true)
   } else {
     sh (script: "mkdir -p ${buildPath}",returnStdout: true)
+    sh (script: "cp -af ${packagePath}/${packageName} ${buildPath}",returnStdout: true)
   }
 
 }
