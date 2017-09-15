@@ -26,7 +26,6 @@ def call(body) {
   def dockerFileContext="""FROM ${env.fromImage}
 MAINTAINER devops "devops@quarkfinance.com"
 ADD *.war *.jar ${env.remoteDir}/
-# RUN cd ${env.remoteDir} && unzip ${packageName} -d ${packageUnzipName}
     """
 
   // 生成env上下文的imageTag
