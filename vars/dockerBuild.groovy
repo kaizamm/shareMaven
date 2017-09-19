@@ -16,7 +16,7 @@ def call(body) {
   // 编译包名称
   // def packageName = config.packageName
   //解压目录名
-  // def packageUnzipName = packageName.substring(0,packageName.lastIndexOf("."))
+  def packageUnzipName = "${appTarget}".substring(0,"${appTarget}".lastIndexOf("."))
   //需要将编译后的软件包拷贝到的路径
   def buildPath="${env.WORKSPACE}/buildspace"
 
@@ -26,6 +26,7 @@ def call(body) {
   def dockerFileContext="""FROM ${env.fromImage}
 MAINTAINER devops "devops@quarkfinance.com"
 ADD *.war *.jar ${env.remoteDir}/
+RUN cd ${env.remoteDir} && unzip ${env.appTarget} -d ${packageUnzipName}
     """
 
   // 生成env上下文的imageTag
