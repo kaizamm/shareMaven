@@ -10,7 +10,7 @@ def call(body) {
   body()
 
   // 项目位置
-  //projectPath = "${env.WORKSPACE}/${config.projectName}"
+  projectPath = "${env.WORKSPACE}/"
   // 编译包位置
   // def packagePath = "${projectPath}/target"
   // 编译包名称
