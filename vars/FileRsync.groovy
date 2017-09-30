@@ -18,12 +18,15 @@ def call(body) {
   def DIR_SRC_UPDATE = "${config.DIR_SRC_UPDATE}"
   // 编译完成包名称
   def dstPackageName = "${config.dstPackageName}"
-
+try {
   // delete old buildspace
   sh (script: "scp -r ${env.WORKSPACE}/${dstPackageName}  ${saltmasterIP}:${saltMasterTmp}/",returnStdout: true)
   sh (script: "ssh ${saltmasterIP} 'sudo mv ${saltMasterTmp}/${dstPackageName} ${saltMasterProjectPath}/${dstPackageName} ' ",returnStdout: true)
   // unzip war file
   sh (script: "ssh ${saltmasterIP} 'sudo salt -L '${APP_HOSTNAME}' cp.get_file ${saltMasterUPath}/${dstPackageName} ${DIR_SRC_UPDATE}/${dstPackageName}' ",returnStdout: true)
+    } catch (err) {
+      println "Failled: ${err}"
+    }
 
   
 }
