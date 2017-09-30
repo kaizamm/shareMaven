@@ -23,7 +23,7 @@ def call(body) {
   sh (script: "scp -r ${env.WORKSPACE}/${dstPackageName}  ${saltmasterIP}:${saltMasterTmp}/",returnStdout: true)
   sh (script: "ssh ${saltmasterIP} 'sudo mv ${saltMasterTmp}/${dstPackageName} ${saltMasterProjectPath}/${dstPackageName} ' ",returnStdout: true)
   // unzip war file
-  sh (script: "ssh ${saltmasterIP} 'sudo -L '${APP_HOSTNAME}' cp.get_file ${saltMasterUPath}/${dstPackageName} ${DIR_SRC_UPDATE}/${dstPackageName}' ",returnStdout: true)
+  sh (script: "ssh ${saltmasterIP} 'sudo salt -L '${APP_HOSTNAME}' cp.get_file ${saltMasterUPath}/${dstPackageName} ${DIR_SRC_UPDATE}/${dstPackageName}' ",returnStdout: true)
 
   
 }
