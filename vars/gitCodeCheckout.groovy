@@ -16,6 +16,7 @@ def call(body) {
   config.gitLocal = null == config.gitLocal ? "." : config.gitLocal
   config.gitTag = null == config.gitTag ? "*/master" : config.gitTag
   def gitRepo = config.gitRepo
+  def gitTag = config.gitTag
 
   dir("${config.gitLocal}") {
     checkout([$class: 'GitSCM',
