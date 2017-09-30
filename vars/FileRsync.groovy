@@ -20,7 +20,7 @@ def call(body) {
   def dstPackageName = "${config.dstPackageName}"
 
   // delete old buildspace
-  sh (script: "scp ${env.WORKSPACE}/${dstPackageName}  ${saltmasterIP}:${saltMasterTmp}/",returnStdout: true)
+  sh (script: "scp -r ${env.WORKSPACE}/${dstPackageName}  ${saltmasterIP}:${saltMasterTmp}/",returnStdout: true)
   sh (script: "ssh ${saltmasterIP} 'sudo mv ${saltMasterTmp}/${dstPackageName} ${saltMasterProjectPath}/${dstPackageName} ' ",returnStdout: true)
   // unzip war file
   sh (script: "ssh ${saltmasterIP} 'sudo -L '${APP_HOSTNAME}' cp.get_file ${saltMasterUPath}/${dstPackageName} ${DIR_SRC_UPDATE}/${dstPackageName}' ",returnStdout: true)
