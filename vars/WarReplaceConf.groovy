@@ -24,6 +24,6 @@ def call(body) {
   // replace conf with svn info
   sh (script: "rsync -av --exclude .svn/ ${localSvnConf}/ ${buildPath}/",returnStdout: true)
   // jar 压缩
-  sh (script: "jar cf ${srcPackageName}  ${buildPath}/",returnStdout: true)
+  sh (script: "jar cf ${dstPackageName}  ${buildPath}/",returnStdout: true)
   
 }
