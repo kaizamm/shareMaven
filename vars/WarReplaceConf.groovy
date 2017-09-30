@@ -19,6 +19,7 @@ def call(body) {
   def buildPath="${env.WORKSPACE}/buildspace"
   // delete old buildspace
   sh (script: "rm -rf  ${buildPath}",returnStdout: true)
+  sh (script: "rm -rf  ${dstPackageName}",returnStdout: true)
   // unzip war file
   sh (script: "unzip ${srcPackageName} -d ${buildPath}",returnStdout: true)
   // replace conf with svn info
