@@ -23,9 +23,9 @@ try {
   sh (script: "scp -r ${env.WORKSPACE}/${dstPackageName}  ${saltmasterIP}:${saltMasterTmp}/",returnStdout: true)
   sh (script: "ssh ${saltmasterIP} 'sudo mv ${saltMasterTmp}/${dstPackageName} ${saltMasterProjectPath}/${dstPackageName} ' ",returnStdout: true)
   // salt rm old update_war_file
-  sh (script: "ssh ${saltmasterIP} 'sudo salt -L '${APP_HOSTNAME}' cmd.run \'rm  ${DIR_SRC_UPDATE}/${dstPackageName}\' ' ",returnStdout: true)
+  sh (script: "ssh ${saltmasterIP} 'sudo salt -L \'${APP_HOSTNAME}\' cmd.run \'rm  ${DIR_SRC_UPDATE}/${dstPackageName}\' ' ",returnStdout: true)
   // salt  get_war_file
-  sh (script: "ssh ${saltmasterIP} 'sudo salt -L '${APP_HOSTNAME}' cp.get_file ${saltMasterUPath}/${dstPackageName} ${DIR_SRC_UPDATE}/${dstPackageName}' ",returnStdout: true)
+  sh (script: "ssh ${saltmasterIP} 'sudo salt -L \'${APP_HOSTNAME}\' cp.get_file ${saltMasterUPath}/${dstPackageName} ${DIR_SRC_UPDATE}/${dstPackageName}' ",returnStdout: true)
     } catch (err) {
       println "Failled: ${err}"
     }
