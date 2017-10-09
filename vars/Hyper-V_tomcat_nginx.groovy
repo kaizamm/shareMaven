@@ -24,6 +24,7 @@ def call(body) {
 	for (i = 0; i <config.APP_HOSTS.size(); i++) {
 		//down nginx upstream host地址
 		def APP_HOST=config.APP_HOSTS[i];
+		def APP_HOSTNAME=config.APP_HOSTNAMES[i];
 		echo "-------------------------------------ready for ${NgHostName} nginx down ${APP_HOST} ${APP_PORT} "
 		sh returnStatus: true, script: "ssh ${saltmasterIP} 'sudo salt -L '${NgHostName}' cmd.script salt://scripts/nginx_up_down.sh args="down ${NGINX_CONF} ${NGINX_DAEMON} ${APP_HOST} ${APP_PORT}"'"
 		echo "-------------------------------------ok for ${NgHostName} nginx down ${APP_HOST} ${APP_PORT} "
