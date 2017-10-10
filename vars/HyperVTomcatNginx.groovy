@@ -22,12 +22,13 @@ def call(body) {
 	//upstream 后端主机port
 	def APP_PORT="${config.APP_PORT}";
 	def APP_HOSTIP=config.APP_HOSTS.split(',')
+	def APP_HOSTNAMES=config.APP_HOSTNAMES.split(',')
 	
 	
 	for (i = 0; i <config.APP_HOSTS.size(); i++) {
 		//down nginx upstream host地址
 		def APP_HOST=APP_HOSTIP[i].split(',')[0].trim();
-		def APP_HOSTNAME=config.APP_HOSTNAMES[i].split(',')[0].trim();
+		def APP_HOSTNAME=APP_HOSTNAMES[i].split(',')[0].trim();
 		println  " ${i} ${APP_HOST} ${APP_HOSTNAME}"
 		println "-------------------------------------ready for ${NgHostName} nginx down ${APP_HOST} ${APP_PORT} "
 		//sh returnStatus: true, script: "ssh ${saltmasterIP} 'sudo salt -L '${NgHostName}' cmd.script salt://scripts/nginx_up_down.sh args="down ${NGINX_CONF} ${NGINX_DAEMON} ${APP_HOST} ${APP_PORT}"'"
