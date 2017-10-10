@@ -21,6 +21,9 @@ def call(body) {
 	def saltmasterIP="${config.saltmasterIP}";
 	//upstream 后端主机port
 	def APP_PORT="${config.APP_PORT}";
+	def CheckUrl="${config.CheckUrl}";
+	def projectName="${config.projectName}";
+	def dir_update="${config.dir_update}";
 	def APP_HOSTIP=config.APP_HOSTS.split(',');
 	def APP_HOSTNAMES=config.APP_HOSTNAMES.split(',');
 	
@@ -35,9 +38,9 @@ def call(body) {
 		
 		println "-------------------------------------ok for ${NgHostName} nginx down ${APP_HOST} ${APP_PORT} "
 		//update tomcat war and checkUrl
-		//sh returnStatus: true, script: "ssh ${saltmasterIP} 'sudo salt '${NgHostName}' cmd.script salt://scripts/tomcat_update.sh args="${healthCheckFunction} ${DIR_SRC_UPDATE} ${CheckUrl} ${APP_HOST} ${APP_PORT}" runas="${AppRunAs}" '"
+		sh  "ssh ${saltmasterIP}  'sudo salt -L \"${APP_HOSTNAME}\" cmd.script salt://scripts/update_tomcat.sh \"update-all ${TOMCAT_HOME} ${projectName} ${dir_update} ${CheckUrl} ${APP_HOST} ${APP_PORT}\" runas=\"${AppRunAs}\" ' ";
 		//up nginx upstream hosts地址
-		//sh returnStatus: true, script: "ssh ${saltmasterIP} 'sudo salt -L  "${NgHostName}" cmd.script salt://scripts/nginx_up_down.sh args="up ${NGINX_CONF} ${NGINX_DAEMON} ${APP_HOST} ${APP_PORT}"'"
+		sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"up ${NGINX_CONF} ${NGINX_DAEMON} ${APP_HOST} ${APP_PORT}\" ' ";
 		println "-------------------------------------ok for ${NgHostName} nginx up ${APP_HOST} ${APP_PORT} "
 
 	}
