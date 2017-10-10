@@ -16,7 +16,7 @@ def call(body) {
   // 编译完成包名称
   def dstPackageName = "${env.WORKSPACE}/${config.dstPackageName}"
   //需要将编译后的软件包拷贝到的路径
-  def buildPath="${env.WORKSPACE}/buildspace"
+  def buildPath="${env.WORKSPACE}/${config.projectName}"
   // delete old buildspace
   sh (script: "rm -rf  ${buildPath}",returnStdout: true)
   sh (script: "rm -rf  ${dstPackageName}",returnStdout: true)
@@ -25,6 +25,6 @@ def call(body) {
   // replace conf with svn info
   sh (script: "rsync -av --exclude .svn/ ${localSvnConf}/ ${buildPath}/",returnStdout: true)
   // jar 压缩
-  sh (script: "jar cf ${dstPackageName}  ${buildPath}/",returnStdout: true)
+  sh (script: "cd ${env.WORKSPACE} && jar cf ${config.dstPackageName}  ${config.projectName}/",returnStdout: true)
   
 }
