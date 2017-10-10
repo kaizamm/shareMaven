@@ -8,7 +8,7 @@ def call(body) {
 	body.delegate = config
 	body()
 	
-	try {
+	//try {
 	def currentTime=System.currentTimeMillis()
 	
 	//nginx 主机名称 
@@ -40,7 +40,7 @@ def call(body) {
 	}
 	  
 
-    } catch (err) {
-      println "Failled: ${err}"
-    }
+    //} catch (err) {
+    //  println "Failled: ${err}"
+    //}
 }
