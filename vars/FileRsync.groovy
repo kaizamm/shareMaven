@@ -15,7 +15,7 @@ def call(body) {
   def APP_HOSTNAME = "${config.APP_HOSTNAME}"
   def saltMasterUPath = "${config.saltMasterUPath}"
   // 源包位置
-  def DIR_SRC_UPDATE = "${config.DIR_SRC_UPDATE}"
+  def DIR_SRC_UPDATE = "${config.dir_update}"
   // 编译完成包名称
   def dstPackageName = "${config.dstPackageName}"
 try {
