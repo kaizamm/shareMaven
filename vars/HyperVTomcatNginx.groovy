@@ -24,13 +24,14 @@ def call(body) {
 	def CheckUrl="${config.CheckUrl}";
 	def projectName="${config.projectName}";
 	def dir_update="${config.dir_update}";
-	def APP_HOSTIP=config.APP_HOSTS.split(',');
-	def APP_HOSTNAMES=config.APP_HOSTNAMES.split(',');
+	//def APP_HOSTIP=config.APP_HOSTS.split(',');
+	//def APP_HOSTNAMES=config.APP_HOSTNAMES.split(',');
+	def APP_HOSTSIZE=config.APP_HOSTS.size()
 	
 	
-	for (i = 0; i <config.APP_HOSTS.size(); i++) {
+	for (i = 0; i <${APP_HOSTSIZE}; i++) {
 		//down nginx upstream host地址
-		def APP_HOST=APP_HOSTIP[i].split(',')[0].trim();
+		def APP_HOST=config.APP_HOSTS[i].split(',')[0].trim();
 		def APP_HOSTNAME=APP_HOSTNAMES[i].split(',')[0].trim();
 		println  " ${i} ${APP_HOST} ${APP_HOSTNAME}";
 		println "-------------------------------------ready for ${NgHostName} nginx down ${APP_HOST} ${APP_PORT} ";
