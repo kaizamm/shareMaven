@@ -32,7 +32,7 @@ def call(body) {
 	for (i = 0; i <APP_HOSTSIZE; i++) {
 		//down nginx upstream host地址
 		def APP_HOST=config.APP_HOSTS[i].split(',')[0].trim();
-		def APP_HOSTNAME=APP_HOSTNAMES[i].split(',')[0].trim();
+		def APP_HOSTNAME=config.APP_HOSTNAMES[i].split(',')[0].trim();
 		println  " ${i} ${APP_HOST} ${APP_HOSTNAME}";
 		println "-------------------------------------ready for ${NgHostName} nginx down ${APP_HOST} ${APP_PORT} ";
 		sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"down ${NGINX_CONF} ${NGINX_DAEMON} ${APP_HOST} ${APP_PORT}\" ' ";
