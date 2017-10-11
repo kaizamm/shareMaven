@@ -26,7 +26,7 @@ def call(body) {
 	def dir_update="${config.dir_update}";
  	def APP_HOSTIP=config.APP_HOSTS.split(',');
  	def APP_HOSTNAMES=config.APP_HOSTNAMES.split(',');
-	def APP_HOSTSIZE=config.APP_HOSTIP.size();
+	def APP_HOSTSIZE=APP_HOSTIP.size();
 	
 	
 	for (i = 0; i <APP_HOSTSIZE; i++) {
