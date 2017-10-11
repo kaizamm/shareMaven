@@ -29,7 +29,7 @@ def call(body) {
 	def APP_HOSTSIZE=config.APP_HOSTS.size();
 	
 	
-	for (i = 0; i <${APP_HOSTSIZE}; i++) {
+	for (i = 0; i <APP_HOSTSIZE; i++) {
 		//down nginx upstream host地址
 		def APP_HOST=config.APP_HOSTS[i].split(',')[0].trim();
 		def APP_HOSTNAME=APP_HOSTNAMES[i].split(',')[0].trim();
