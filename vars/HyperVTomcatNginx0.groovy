@@ -76,25 +76,7 @@ def call(body) {
 	}
 	sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"reload ${NGINX_CONF} ${NGINX_DAEMON} \" ' ";
 
-	// for (i = 0; i <APP_HOSTSIZE; i++) {
-	// 	//down nginx upstream host地址
-	// 	def APP_HOST=APP_HOSTIP[i].trim();
-	// 	// def APP_HOSTNAME=APP_HOSTNAMES[i].trim();
-	// 	println  " ${i} ${APP_HOST} ${APP_HOSTNAME}";
-	// 	println "-------------------------------------ready for ${NgHostName} nginx down ${APP_HOST} ${APP_PORT} ";
-	// 	sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"down ${NGINX_CONF} ${NGINX_DAEMON} ${APP_HOST} ${APP_PORT}\" ' ";
-	//
-	// 	println "-------------------------------------ok for ${NgHostName} nginx down ${APP_HOST} ${APP_PORT} "
-	// 	//update tomcat war and checkUrl
-	// 	sh  "ssh ${saltmasterIP}  'sudo salt -L \"${APP_HOSTNAME}\" cmd.script salt://scripts/update_tomcat.sh \"update-all ${TOMCAT_HOME} ${projectName} ${dir_update} ${CheckUrl} ${APP_HOST} ${APP_PORT}\" runas=\"${AppRunAs}\" ' ";
-	// 	//up nginx upstream hosts地址
-	// 	sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"up ${NGINX_CONF} ${NGINX_DAEMON} ${APP_HOST} ${APP_PORT}\" ' ";
-	// 	println "-------------------------------------ok for ${NgHostName} nginx up ${APP_HOST} ${APP_PORT} "
-	//
-	// }
-
-
-    } catch (err) {
-      println "Failled: ${err}"
+    } catch (Exception ex) {
+      println "Failled: ${ex}"
     }
 }
