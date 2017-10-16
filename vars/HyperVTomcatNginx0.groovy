@@ -39,6 +39,7 @@ def call(body) {
 		def APP_LEFT_HOST=APP_LEFT_HOSTS[i].trim();
 		sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"down ${NGINX_CONF} ${NGINX_DAEMON} ${APP_LEFT_HOST} ${APP_PORT}\" ' ";
 	}
+		sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"reload ${NGINX_DAEMON} \" ' ";
 
 	// update left hosts tomcat war and checkUrl
 	for (i = 0; i<APP_LEFT_HOSTS.size; i++) {
@@ -51,6 +52,7 @@ def call(body) {
 		def APP_LEFT_HOST=APP_LEFT_HOSTS[i].trim();
 		sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"up ${NGINX_CONF} ${NGINX_DAEMON} ${APP_HOST} ${APP_PORT}\" ' ";
 	}
+	sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"reload ${NGINX_DAEMON} \" ' ";
 
 
 
@@ -59,6 +61,7 @@ def call(body) {
 		def APP_LEFT_HOST=APP_LEFT_HOSTS[i].trim();
 		sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"down ${NGINX_CONF} ${NGINX_DAEMON} ${APP_LEFT_HOST} ${APP_PORT}\" ' ";
 	}
+	sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"reload ${NGINX_DAEMON} \" ' ";
 
 	// update left hosts tomcat war and checkUrl
 	for (i = 0; i<APP_RIGHT_HOSTS.size; i++) {
@@ -71,6 +74,7 @@ def call(body) {
 		def APP_LEFT_HOST=APP_LEFT_HOSTS[i].trim();
 		sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"up ${NGINX_CONF} ${NGINX_DAEMON} ${APP_HOST} ${APP_PORT}\" ' ";
 	}
+	sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"reload ${NGINX_DAEMON} \" ' ";
 
 	// for (i = 0; i <APP_HOSTSIZE; i++) {
 	// 	//down nginx upstream host地址
