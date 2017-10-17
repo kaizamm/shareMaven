@@ -46,6 +46,12 @@ def call(body) {
 		def APP_LEFT_HOST=APP_LEFT_HOSTS[i].trim();
 		sh  "ssh ${saltmasterIP}  'sudo salt -S \"${APP_LEFT_HOST}\" cmd.script salt://scripts/update_tomcat.sh \"update-all ${TOMCAT_HOME} ${projectName} ${dir_update} ${CheckUrl} ${APP_LEFT_HOST} ${APP_PORT}\" runas=\"${AppRunAs}\" ' ";
 	}
+	
+	// check_url left hosts tomcat war and checkUrl
+	for (i = 0; i<APP_LEFT_HOSTS.size; i++) {
+		def APP_LEFT_HOST=APP_LEFT_HOSTS[i].trim();
+		sh  "ssh ${saltmasterIP}  'sudo salt -S \"${APP_LEFT_HOST}\" cmd.script salt://scripts/update_tomcat.sh \"check_url ${TOMCAT_HOME} ${projectName} ${dir_update} ${CheckUrl} ${APP_LEFT_HOST} ${APP_PORT}\" runas=\"${AppRunAs}\" ' ";
+	}
 
 	// nginx reload
 	for (i = 0; i<APP_LEFT_HOSTS.size; i++) {
@@ -63,10 +69,16 @@ def call(body) {
 	}
 	sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"reload ${NGINX_CONF} ${NGINX_DAEMON} \" ' ";
 
-	// update left hosts tomcat war and checkUrl
+	// update right hosts tomcat war and checkUrl
 	for (i = 0; i<APP_RIGHT_HOSTS.size; i++) {
 		def APP_RIGHT_HOST=APP_RIGHT_HOSTS[i].trim();
 		sh  "ssh ${saltmasterIP}  'sudo salt -S \"${APP_RIGHT_HOST}\" cmd.script salt://scripts/update_tomcat.sh \"update-all ${TOMCAT_HOME} ${projectName} ${dir_update} ${CheckUrl} ${APP_RIGHT_HOST} ${APP_PORT}\" runas=\"${AppRunAs}\" ' ";
+	}
+	
+		// check_url right hosts tomcat war and checkUrl
+	for (i = 0; i<APP_RIGHT_HOSTS.size; i++) {
+		def APP_RIGHT_HOST=APP_RIGHT_HOSTS[i].trim();
+		sh  "ssh ${saltmasterIP}  'sudo salt -S \"${APP_RIGHT_HOST}\" cmd.script salt://scripts/update_tomcat.sh \"check_url ${TOMCAT_HOME} ${projectName} ${dir_update} ${CheckUrl} ${APP_RIGHT_HOST} ${APP_PORT}\" runas=\"${AppRunAs}\" ' ";
 	}
 
 	// nginx reload
