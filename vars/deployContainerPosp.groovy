@@ -23,6 +23,7 @@ def call(body) {
     def appPort = appAddress.split('_')[1].trim()
     def appExpose = hostsArry[i].split(',')[1].trim()
     def hostsArryLenth = hostsArry[i].split('_').size()
+    println hostsArryLenth
     if (hostsArryLenth == 3) {
         def dubboPort = hostsArry[i].split('_')[2].trim()
     }
