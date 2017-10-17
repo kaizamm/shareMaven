@@ -23,7 +23,6 @@ def call(body) {
     def appPort = appAddress.split('_')[1].trim()
     def appExpose = hostsArry[i].split(',')[1].trim()
     def hostsArryLenth = hostsArry[i].split('_')
-    println hostsArryLenth
     if (hostsArryLenth.size() == 3) {
         def dubboPort = hostsArry[i].split('_')[2].trim()
     }
@@ -50,7 +49,7 @@ def call(body) {
     // 拉取push到registry的image
     sh (script: "docker -H"+" "+appIp+":2375 pull"+" "+toImage,returnStdout: true)
     // 运行容器
-    if (hostsArryLenth == 3) {
+    if (hostsArryLenth.size() == 3) {
       sh (script: "docker -H"+" "+appIp+":2375 run -d --restart=always --name="+containerName+" "+"-e etcdClusterIp="+etcdClusterIp+" "+"-e appCfgs="+appCfgs.replace("null","").trim()+" "+"-e appTargetName="+appTargetName+" "+"-e instanceId="+instanceId+" "+"-e jmxIp="+appIp+" "+"-e jmxPort="+jmxPort+" "+"-e JAVA_OPTS="+javaOpts.trim()+" " +"-v /data/logs/"+containerName+":/AppLogs -p"+" "+jmxPort+":"+jmxPort+" "+"-p"+" "+appExpose+" -p"+" "+dubboPort+" "+dockerRunOpts.replace("null","").trim()+" "+toImage.trim(),returnStdout: true)
     } else {
       sh (script: "docker -H"+" "+appIp+":2375 run -d --restart=always --name="+containerName+" "+"-e etcdClusterIp="+etcdClusterIp+" "+"-e appCfgs="+appCfgs.replace("null","").trim()+" "+"-e appTargetName="+appTargetName+" "+"-e instanceId="+instanceId+" "+"-e jmxIp="+appIp+" "+"-e jmxPort="+jmxPort+" "+"-e JAVA_OPTS="+javaOpts.trim()+" " +"-v /data/logs/"+containerName+":/AppLogs -p"+" "+jmxPort+":"+jmxPort+" "+"-p"+" "+appExpose+" "+dockerRunOpts.replace("null","").trim()+" "+toImage.trim(),returnStdout: true)
