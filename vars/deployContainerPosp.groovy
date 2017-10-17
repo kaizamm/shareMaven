@@ -22,6 +22,7 @@ def call(body) {
     def appIp = appAddress.split('_')[0].trim()
     def appPort = appAddress.split('_')[1].trim()
     def appExpose = hostsArry[i].split(',')[1].trim()
+    def dubboPort = hostsArry[i].split('_')[2].trim()
     // def instanceId = (appOrg+"_"+appEnv+"_"+appTargetName.substring(0,appTargetName.lastIndexOf("."))+"_"+appTargetName1.substring(0,appTargetName1.lastIndexOf("."))).toUpperCase().trim()
     // def instanceId = (appOrg+"_"+appEnv+"_"+appTargetName.substring(0,appTargetName.lastIndexOf("."))).toUpperCase().trim()
     def instanceId = (appOrg+"_"+appEnv+"_"+appTargetName).toUpperCase().trim()
@@ -45,7 +46,7 @@ def call(body) {
     // 拉取push到registry的image
     sh (script: "docker -H"+" "+appIp+":2375 pull"+" "+toImage,returnStdout: true)
     // 运行容器
-    sh (script: "docker -H"+" "+appIp+":2375 run -d --restart=always --name="+containerName+" "+"-e etcdClusterIp="+etcdClusterIp+" "+"-e appCfgs="+appCfgs.replace("null","").trim()+" "+"-e appTargetName="+appTargetName+" "+"-e instanceId="+instanceId+" "+"-e jmxIp="+appIp+" "+"-e jmxPort="+jmxPort+" "+"-e JAVA_OPTS="+javaOpts.trim()+" " +"-v /data/logs/"+containerName+":/AppLogs -p"+" "+jmxPort+":"+jmxPort+" "+"-p"+" "+appExpose+" "+dockerRunOpts.replace("null","").trim()+" "+toImage.trim(),returnStdout: true)
+    sh (script: "docker -H"+" "+appIp+":2375 run -d --restart=always --name="+containerName+" "+"-e etcdClusterIp="+etcdClusterIp+" "+"-e appCfgs="+appCfgs.replace("null","").trim()+" "+"-e appTargetName="+appTargetName+" "+"-e instanceId="+instanceId+" "+"-e jmxIp="+appIp+" "+"-e jmxPort="+jmxPort+" "+"-e JAVA_OPTS="+javaOpts.trim()+" " +"-v /data/logs/"+containerName+":/AppLogs -p"+" "+jmxPort+":"+jmxPort+" "+"-p"+" "+appExpose+" -p"+" "+dubboPort+" "+dockerRunOpts.replace("null","").trim()+" "+toImage.trim(),returnStdout: true)
     sleep(10)
     // 获取当前运行容器的状态码
     def containerStatus = sh (script: "docker -H"+" "+appIp+":2375 inspect -f '{{.State.Status}}'"+" "+containerName,returnStdout: true).trim()
