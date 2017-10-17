@@ -25,7 +25,7 @@ def call(body) {
     def hostsArryLenth = hostsArry[i].split('_').size()
     if (hostsArryLenth == 3) {
         def dubboPort = hostsArry[i].split('_')[2].trim()
-        
+    }
     // def instanceId = (appOrg+"_"+appEnv+"_"+appTargetName.substring(0,appTargetName.lastIndexOf("."))+"_"+appTargetName1.substring(0,appTargetName1.lastIndexOf("."))).toUpperCase().trim()
     // def instanceId = (appOrg+"_"+appEnv+"_"+appTargetName.substring(0,appTargetName.lastIndexOf("."))).toUpperCase().trim()
     def instanceId = (appOrg+"_"+appEnv+"_"+appTargetName).toUpperCase().trim()
