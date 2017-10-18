@@ -23,8 +23,9 @@ def call(body) {
     def appPort = appAddress.split('_')[1].trim()
     def appExpose = hostsArry[i].split(',')[1].trim()
     def hostsArryLenth = hostsArry[i].split('_')
+    def dubboPort = 0
     if (hostsArryLenth.size() == 3) {
-        def dubboPort = hostsArry[i].split('_')[2].trim()
+        dubboPort = hostsArry[i].split('_')[2].trim()
     }
     // def instanceId = (appOrg+"_"+appEnv+"_"+appTargetName.substring(0,appTargetName.lastIndexOf("."))+"_"+appTargetName1.substring(0,appTargetName1.lastIndexOf("."))).toUpperCase().trim()
     // def instanceId = (appOrg+"_"+appEnv+"_"+appTargetName.substring(0,appTargetName.lastIndexOf("."))).toUpperCase().trim()
