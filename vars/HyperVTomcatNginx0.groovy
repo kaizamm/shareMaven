@@ -8,7 +8,6 @@ def call(body) {
 	body.delegate = config
 	body()
 
-	try {
 	def currentTime=System.currentTimeMillis()
 
 	//nginx 主机名称
@@ -33,6 +32,7 @@ def call(body) {
 	def APP_LEFT_HOSTS=APP_HOSTIP[0..(MID-1)]
 	def APP_RIGHT_HOSTS=APP_HOSTIP[MID..(APP_HOSTSIZE-1)]
 
+try {
 	//update left hosts
 	// nginx stop
 	for (i = 0; i<APP_LEFT_HOSTS.size; i++) {
@@ -45,12 +45,6 @@ def call(body) {
 	for (i = 0; i<APP_LEFT_HOSTS.size; i++) {
 		def APP_LEFT_HOST=APP_LEFT_HOSTS[i].trim();
 		sh  "ssh ${saltmasterIP}  'sudo salt -S \"${APP_LEFT_HOST}\" cmd.script salt://scripts/update_tomcat.sh \"update-all ${TOMCAT_HOME} ${projectName} ${dir_update} ${CheckUrl} ${APP_LEFT_HOST} ${APP_PORT}\" runas=\"${AppRunAs}\" ' ";
-	}
-	
-	// check_url left hosts tomcat war and checkUrl
-	for (i = 0; i<APP_LEFT_HOSTS.size; i++) {
-		def APP_LEFT_HOST=APP_LEFT_HOSTS[i].trim();
-		sh  "ssh ${saltmasterIP}  'sudo salt -S \"${APP_LEFT_HOST}\" cmd.script salt://scripts/update_tomcat.sh \"check_url ${TOMCAT_HOME} ${projectName} ${dir_update} ${CheckUrl} ${APP_LEFT_HOST} ${APP_PORT}\" runas=\"${AppRunAs}\" ' ";
 	}
 
 	// nginx reload
@@ -69,16 +63,10 @@ def call(body) {
 	}
 	sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"reload ${NGINX_CONF} ${NGINX_DAEMON} \" ' ";
 
-	// update right hosts tomcat war and checkUrl
+	// update left hosts tomcat war and checkUrl
 	for (i = 0; i<APP_RIGHT_HOSTS.size; i++) {
 		def APP_RIGHT_HOST=APP_RIGHT_HOSTS[i].trim();
 		sh  "ssh ${saltmasterIP}  'sudo salt -S \"${APP_RIGHT_HOST}\" cmd.script salt://scripts/update_tomcat.sh \"update-all ${TOMCAT_HOME} ${projectName} ${dir_update} ${CheckUrl} ${APP_RIGHT_HOST} ${APP_PORT}\" runas=\"${AppRunAs}\" ' ";
-	}
-	
-		// check_url right hosts tomcat war and checkUrl
-	for (i = 0; i<APP_RIGHT_HOSTS.size; i++) {
-		def APP_RIGHT_HOST=APP_RIGHT_HOSTS[i].trim();
-		sh  "ssh ${saltmasterIP}  'sudo salt -S \"${APP_RIGHT_HOST}\" cmd.script salt://scripts/update_tomcat.sh \"check_url ${TOMCAT_HOME} ${projectName} ${dir_update} ${CheckUrl} ${APP_RIGHT_HOST} ${APP_PORT}\" runas=\"${AppRunAs}\" ' ";
 	}
 
 	// nginx reload
@@ -88,7 +76,8 @@ def call(body) {
 	}
 	sh  "ssh ${saltmasterIP}  'sudo salt -L \"${NgHostName}\" cmd.script salt://scripts/nginx_up_down.sh \"reload ${NGINX_CONF} ${NGINX_DAEMON} \" ' ";
 
-    } catch (Exception ex) {
-      println "Failled: ${ex}"
+    } catch (Exception err) {
+			error "${err}"
+      println "Failled: ${err}"
     }
 }
