@@ -50,7 +50,7 @@ def call(body) {
     } catch (err) {
       println "Failled: ${err}"
     }
-    sleep(3)
+    sleep(10)
     // 拉取push到registry的image
     sh (script: "docker -H"+" "+appIp+":2375 pull"+" "+toImage,returnStdout: true)
     // 运行容器
