@@ -46,6 +46,7 @@ def call(body) {
     // 停止并删除当前容器
     try {
       sh (script: "docker -H"+" "+appIp+":2375 stop"+" "+containerName,returnStdout: true)
+      sh (script: "docker -H"+" "+appIp+":2375 kill"+" "+containerName,returnStdout: true)
       sh (script: "docker -H"+" "+appIp+":2375 rm"+" "+containerName,returnStdout: true)
     } catch (err) {
       println "Failled: ${err}"
