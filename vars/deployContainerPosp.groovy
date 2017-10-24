@@ -1,17 +1,3 @@
-bpms-api
-platform
-
-ng
-
-
-config.svnLocal = null==config.svnLocal ? "." : config.svnLocal
-
-${env.JOB_BASE_NAME}
-
-monitorDockerHosts
-
-
-
 #!/usr/bin/env groovy
 def call(body) {
   def config = [:]
