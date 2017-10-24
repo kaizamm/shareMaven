@@ -14,7 +14,7 @@ def call(body) {
   def appCfgs="${env.appCfgs}"
   def projectRecipintList="${env.projectRecipintList}"
   def dockerRunOpts="${env.dockerRunOpts}"
-  def dockerHosts="${env.dockerHosts}"
+  def dockerHosts=null=="${env.monitorDockerHosts}" ? "${env.dockerHosts}" : "${env.monitorDockerHosts}"
   def javaOpts="${env.javaOpts}"
   def hostsArry = dockerHosts.split(' ')
   for (int i = 0;i<hostsArry.size();i++) {
