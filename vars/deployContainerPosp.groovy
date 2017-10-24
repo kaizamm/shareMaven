@@ -16,7 +16,6 @@ def call(body) {
   def dockerRunOpts="${env.dockerRunOpts}"
   def dockerHosts=null=="${env.jenkinsDockerHosts}" ? "${env.dockerHosts}" : "${env.monitorDockerHosts}"
   def javaOpts="${env.javaOpts}"
-  def sxztest="${env.sxztest}"
   def hostsArry = dockerHosts.split(' ')
   for (int i = 0;i<hostsArry.size();i++) {
     def appAddress = hostsArry[i].split(',')[0].trim()
@@ -63,7 +62,6 @@ def call(body) {
     sleep(10)
     // 获取当前运行容器的状态码
     def containerStatus = sh (script: "docker -H"+" "+appIp+":2375 inspect -f '{{.State.Status}}'"+" "+containerName,returnStdout: true).trim()
-    println sxztest
     println containerStatus
     // 检测状态，如果不是running状态，停止并删除，返回错误
     if (containerStatus != 'running') {
