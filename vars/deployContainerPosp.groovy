@@ -15,11 +15,9 @@ def call(body) {
   def projectRecipintList="${env.projectRecipintList}"
   def dockerRunOpts="${env.dockerRunOpts}"
   def dockerHosts="${env.dockerHosts}"
-  if (${env.jenkinsDockerHosts}){
-      dockerHosts = "${env.jenkinsDockerHosts}"
-  }
-  else{
-      "${env.dockerHosts}"
+  def jenkinsDockerHosts="${env.jenkinsDockerHosts}"
+  if (jenkinsDockerHosts){
+      dockerHosts = jenkinsDockerHosts
   }
   def javaOpts="${env.javaOpts}"
   def hostsArry = dockerHosts.split(' ')
