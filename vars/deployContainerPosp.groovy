@@ -14,7 +14,7 @@ def call(body) {
   def appCfgs="${env.appCfgs}"
   def projectRecipintList="${env.projectRecipintList}"
   def dockerRunOpts="${env.dockerRunOpts}"
-  def dockerHosts=（"${env.jenkinsDockerHosts}" and null !="${env.jenkinsDockerHosts}"） ? "${env.jenkinsDockerHosts}" : "${env.dockerHosts}"
+  def dockerHosts=("${env.jenkinsDockerHosts}" and null !="${env.jenkinsDockerHosts}") ? "${env.jenkinsDockerHosts}" : "${env.dockerHosts}"
   def javaOpts="${env.javaOpts}"
   def hostsArry = dockerHosts.split(' ')
   for (int i = 0;i<hostsArry.size();i++) {
