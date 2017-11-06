@@ -25,7 +25,7 @@ def call(body) {
       sh (script: "unzip ${srcPackageName} -d ${buildPath}",returnStdout: true)
   }
   else if ( srcPackageName.endsWith("tar") ){
-  sh (script: "tar xf ${srcPackageName} -C ${buildPath}",returnStdout: true)
+  sh (script: "tar xf ${srcPackageName} -C ${env.WORKSPACE}",returnStdout: true)
   }
   else {
       println(" ${srcPackageName} is not def endsWith package ")
