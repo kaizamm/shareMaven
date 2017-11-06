@@ -17,22 +17,29 @@ def call(body) {
   def dstPackageName = "${env.WORKSPACE}/${config.dstPackageName}"
   //需要将编译后的软件包拷贝到的路径
   def buildPath="${env.WORKSPACE}/${config.projectName}"
+  def srcbuildName="${env.WORKSPACE}/${config.srcProjectName}"
   // delete old buildspace
   sh (script: "rm -rf  ${buildPath}",returnStdout: true)
   sh (script: "rm -rf  ${dstPackageName}",returnStdout: true)
   // unzip war file
   if ( srcPackageName.endsWith("war") ){
       sh (script: "unzip ${srcPackageName} -d ${buildPath}",returnStdout: true)
+	    // replace conf with svn info
+      sh (script: "rsync -av --exclude .svn/ ${localSvnConf}/ ${buildPath}/",returnStdout: true)
+        // jar 压缩
+      sh (script: "cd ${buildPath} && jar cf ../${config.dstPackageName} .",returnStdout: true)
   }
   else if ( srcPackageName.endsWith("tar") ){
-  sh (script: "tar xf ${srcPackageName} -C ${env.WORKSPACE}",returnStdout: true)
+      sh (script: "tar xf ${srcPackageName} -C ${env.WORKSPACE}",returnStdout: true)
+	  sh (scripts: "mv ${srcbuildName} ${buildPath}" ,returnStdout: true)
+	  sh (script: "rsync -av --exclude .svn/ ${localSvnConf}/ ${buildPath}/",returnStdout: true)
+	  sh (script: "cd ${env.WORKSPACE} && tar -zcf ${config.dstPackageName} ${buildPath}/",returnStdout: true)
+	  
+  
   }
   else {
-      println(" ${srcPackageName} is not def endsWith package ")
+      println(" error ,${srcPackageName} is not def endsWith package ")
   }
-  // replace conf with svn info
-  sh (script: "rsync -av --exclude .svn/ ${localSvnConf}/ ${buildPath}/",returnStdout: true)
-  // jar 压缩
-  sh (script: "cd ${buildPath} && jar cf ../${config.dstPackageName} .",returnStdout: true)
+
   
 }
