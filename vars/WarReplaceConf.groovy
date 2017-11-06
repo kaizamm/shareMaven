@@ -31,8 +31,7 @@ def call(body) {
   }
   else if ( srcPackageName.endsWith("tar") ){
       sh (script: "tar xf ${srcPackageName} -C ${env.WORKSPACE}",returnStdout: true)
-      println("${srcbuildName} ${buildPath}")
-	  sh (scripts: "mv ${srcbuildName} ${buildPath}",returnStdout: true)
+      sh (script: "mv ${srcbuildName} ${buildPath}",returnStdout: true)
 	  sh (script: "rsync -av --exclude .svn/ ${localSvnConf}/ ${buildPath}/",returnStdout: true)
 	  sh (script: "cd ${env.WORKSPACE} && tar -zcf ${config.dstPackageName} ${buildPath}/",returnStdout: true)
 	  
