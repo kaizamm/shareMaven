@@ -21,7 +21,15 @@ def call(body) {
   sh (script: "rm -rf  ${buildPath}",returnStdout: true)
   sh (script: "rm -rf  ${dstPackageName}",returnStdout: true)
   // unzip war file
-  sh (script: "unzip ${srcPackageName} -d ${buildPath}",returnStdout: true)
+  if ( srcPackageName.endsWith("war") ){
+      sh (script: "unzip ${srcPackageName} -d ${buildPath}",returnStdout: true)
+  }
+  else if ( srcPackageName.endsWith("tar") ){
+  sh (script: "tar xf ${srcPackageName} -C ${buildPath}",returnStdout: true)
+  }
+  else {
+      println(" ${srcPackageName} is not def endsWith package ")
+  }
   // replace conf with svn info
   sh (script: "rsync -av --exclude .svn/ ${localSvnConf}/ ${buildPath}/",returnStdout: true)
   // jar 压缩
