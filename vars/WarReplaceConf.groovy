@@ -14,13 +14,13 @@ def call(body) {
   // 源包位置
   def srcPackageName = "${localSrcWar}/${config.srcPackageName}"
   // 编译完成包名称
-  def dstPackageName = "${env.WORKSPACE}/${config.dstPackageName}"
+  //def dstPackageName = "${env.WORKSPACE}/${config.dstPackageName}"
   //需要将编译后的软件包拷贝到的路径
   def buildPath="${env.WORKSPACE}/${config.projectName}"
   def srcbuildName="${env.WORKSPACE}/${config.srcProjectName}"
   // delete old buildspace
   sh (script: "rm -rf  ${buildPath}",returnStdout: true)
-  sh (script: "rm -rf  ${dstPackageName}",returnStdout: true)
+  sh (script: "rm -rf  ${env.WORKSPACE}/${config.dstPackageName}",returnStdout: true)
   // unzip war file
   if ( srcPackageName.endsWith("war") ){
       sh (script: "unzip ${srcPackageName} -d ${buildPath}",returnStdout: true)
