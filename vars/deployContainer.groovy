@@ -31,8 +31,6 @@ def call(body) {
     else {
         appExpose = hostsArry[i].split(',')[1].trim()
     }
-    // def instanceId = (appOrg+"_"+appEnv+"_"+appTargetName.substring(0,appTargetName.lastIndexOf("."))+"_"+appTargetName1.substring(0,appTargetName1.lastIndexOf("."))).toUpperCase().trim()
-    // def instanceId = (appOrg+"_"+appEnv+"_"+appTargetName.substring(0,appTargetName.lastIndexOf("."))).toUpperCase().trim()
     def instanceId = (appOrg+"_"+appEnv+"_"+appTargetName).toUpperCase().trim()
     def containerName = (instanceId+"_"+appIp+"_"+appPort).toUpperCase().replace(".","").trim()
     def int jmxPort = (appPort.toInteger()+10)
