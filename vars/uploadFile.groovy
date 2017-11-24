@@ -12,7 +12,8 @@ def call(body) {
 	def remoteDir=config.remoteDir;
 	def remoteIps="${env.remoteIps}"
 	def remoteIpsArry=remoteIps.split(',')
-	println remoteIpsArry
+	def remoteIp=config.remoteIpsArry[i]
+	println remoteIp
   // for (i = 0; i<remoteIpsArry.size(); i++) {
   //   def remoteIp=config.remoteIpsArry[i].trim();
 	// 	println remoteIp
