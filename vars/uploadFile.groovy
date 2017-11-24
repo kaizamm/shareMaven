@@ -12,9 +12,10 @@ def call(body) {
 	def remoteDir=config.remoteDir;
 	def remoteIps="${env.remoteIps}"
 	def remoteIpsArry=remoteIps.split(',')
-  for (i = 0; i<remoteIpsArry.size(); i++) {
-    def remoteIp=config.remoteIpsArry[i];
-		println remoteIp
+	println remoteIpsArry
+  // for (i = 0; i<remoteIpsArry.size(); i++) {
+  //   def remoteIp=config.remoteIpsArry[i].trim();
+	// 	println remoteIp
     // sh "pwd"
     // sh "scp -r ${localFile} ${remoteIp}:${remoteDir}/"
   }
