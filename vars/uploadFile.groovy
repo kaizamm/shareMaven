@@ -3,8 +3,6 @@ def call(body) {
 	body.resolveStrategy = Closure.DELEGATE_FIRST
 	body.delegate = config
 	body()
-	config.javaOpts= config.javaOpts==null ? "" : config.javaOpts
-
 	def currentTime=System.currentTimeMillis()
 
 	//本地文件或目录
@@ -15,7 +13,7 @@ def call(body) {
 	def remoteIpsArry=remoteIps.split(' ')
 
   for (i = 0; i<remoteIpsArry.size(); i++) {
-    def remoteIp=remoteIpsArry[i].split(',').trim();
+    def remoteIp=remoteIpsArry[i].split(',')[0].trim()
 		println remoteIp
     // sh "pwd"
     // sh "scp -r ${localFile} ${remoteIp}:${remoteDir}/"
