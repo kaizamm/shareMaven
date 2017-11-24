@@ -19,5 +19,5 @@ def call(body) {
 	// 	println remoteIp
     // sh "pwd"
     // sh "scp -r ${localFile} ${remoteIp}:${remoteDir}/"
-  }
+  // }
 }
